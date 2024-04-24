@@ -37,10 +37,10 @@ export class TabsGroupComponent implements AfterContentInit, OnDestroy {
   trackByFn = (_: number, tab: TabComponent) => tab.tabTitle;
 
   ngAfterContentInit() {
-    this.selectTab(this.tabs.first);
+    this.selectTab(this.tabs?.first);
     this.#tabsChangesSubscription = this.tabs.changes.subscribe(() => {
       if (!this.tabs.some((tab) => tab === this.selectedTab)) {
-        this.selectTab(this.tabs.first);
+        this.selectTab(this.tabs?.first);
       }
     });
   }
@@ -52,7 +52,9 @@ export class TabsGroupComponent implements AfterContentInit, OnDestroy {
   selectTab(tab: TabComponent) {
     this.tabs.forEach((t) => (t.active = false));
     this.selectedTab = tab;
-    this.selectedTab.active = true;
+    if (this.selectedTab) {
+      this.selectedTab.active = true;
+    }
   }
 
   removeTab(index: number) {
